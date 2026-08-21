@@ -1,14 +1,16 @@
-# webgazer-re-demo
+# client-side-ml-re
 
-A small, self-contained proof of concept for **client-side ML security work**:
-locating an on-device model inside a running browser client, extracting it and
-running it outside the app, and forging the value it reports.
+Self-contained proofs of concept for **client-side ML security work**: locating an
+on-device model inside a running browser client, extracting it and running it
+outside the app, and forging the value it reports — across three delivery formats
+a real product uses (plain JS, WebAssembly, and obfuscated JS).
 
-The target is [WebGazer.js](https://webgazer.cs.brown.edu) (open source, GPL-3.0),
-an in-browser webcam eye-tracker. Its architecture mirrors on-device
+The headline target is [WebGazer.js](https://webgazer.cs.brown.edu) (open source,
+GPL-3.0), an in-browser webcam eye-tracker. Its architecture mirrors on-device
 "estimate something from the camera, nothing leaves the device" products: webcam
 in, an in-browser model, a numeric result out, nothing sent to a server. WebGazer
-is used because it is legal to publish security work against.
+is used because it is legal to publish security work against; the WASM and
+obfuscation cases use purpose-built stand-in targets.
 
 - **[REPORT.md](REPORT.md)** — the write-up: what was done, how far it got, why it
   stopped, attacker effort per technique, and recommendations. Start here.
