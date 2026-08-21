@@ -15,14 +15,21 @@ shape as an on-device "estimate something from the camera, nothing leaves the
 device" product: webcam in, an in-browser model, a numeric result out, nothing
 sent to a server.
 
-The limitation, stated up front rather than buried: **WebGazer is not
-obfuscated.** A production target handed over on a staging build may be minified,
-obfuscated, or compiled to WebAssembly specifically to resist this. This sample
-therefore proves the **model half** of the work end to end (find, extract, run,
-tamper). It does not prove the **adversarial-RE half** (defeating obfuscation and
-anti-tamper), which is a different and harder problem. Where that line falls, and
-how I would approach the harder half, is set out in "What would change on an
-obfuscated target" below.
+The limitation, stated up front rather than buried: the demo runs against
+WebGazer's **minified** production bundle (`webgazer.min.js` — webpack/terser,
+local variables crushed to `e`/`t`/`n`), but that bundle is **not obfuscated**.
+Class and property names survive minification intact — `RidgeReg`,
+`eyeFeaturesClicks`, `ridgeParameter`, `getEyeFeats` are all still there by name —
+which is exactly why the extraction below works by name. The finding worth drawing
+out: **plain minification is not a defense against this**, and the demo shows it
+on the shipped minified build, not on unminified source. A real target may go
+further — property-name mangling, control-flow obfuscation, or compilation to
+WebAssembly — specifically to resist this. This sample therefore proves the
+**model half** of the work end to end (find, extract, run, tamper) against a
+minified build. It does not prove the **adversarial-RE half** (defeating
+property-mangling / obfuscation / anti-tamper), which is a different and harder
+problem. Where that line falls, and how I would approach the harder half, is set
+out in "What would change on a hardened target" below.
 
 Everything below is reproducible: open [`poc/index.html`](poc/index.html) (served
 over HTTP) and it runs against the genuine `webgazer.min.js` from a CDN, with no
@@ -108,10 +115,12 @@ a one-off. Technique 1 fails (b). Technique 2 passes (b) but a calibration-anoma
 detector reaches it. Technique 3 passes all three against a client that only
 guards the model and the output — which is the common case.
 
-## What would change on an obfuscated target
+## What would change on a hardened target
 
-Everything above assumes readable source. On a minified / obfuscated / WASM
-staging build, Stage 1 becomes the hard part and the honest change of method is:
+Everything above works against a minified but readable-by-name bundle. On a
+**property-mangled, control-flow-obfuscated, or WASM** staging build (plain
+minification, as shown above, is not enough to stop it), Stage 1 becomes the hard
+part and the honest change of method is:
 
 - Work from the runtime, not the source: set breakpoints on `getUserMedia`, the
   TF.js inference call, and `canvas`/`getImageData` to find the sensor→feature and
