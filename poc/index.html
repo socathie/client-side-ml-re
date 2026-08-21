@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebGazer RE demo — client-side model extraction &amp; gaze tampering</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 900px; margin: 2rem auto; padding: 0 1rem;
+      background: #12161c; color: #e6e9ee;
+    }
+    h1 { font-size: 1.25rem; }
+    p.lede { color: #aeb6c2; }
+    a { color: #4ac29a; }
+    #status { color: #aeb6c2; margin: 1rem 0; }
+    #log {
+      background: #0b0e13; border: 1px solid #263041; border-radius: 8px;
+      padding: 1rem; white-space: pre-wrap; word-break: break-word;
+      font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+      font-size: 12.5px; overflow-x: auto;
+    }
+    #log .h  { color: #5b9cf8; font-weight: 700; margin-top: .25rem; }
+    #log .ok { color: #4ac29a; font-weight: 700; }
+    #log .warn { color: #f2a65a; }
+    footer { color: #6d7684; margin-top: 1.5rem; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>WebGazer reverse-engineering demo</h1>
+  <p class="lede">
+    A self-contained proof of concept for client-side ML security work: locating an
+    on-device model inside a running browser client, extracting it and running it
+    outside the app, and forging the result. The target is
+    <a href="https://webgazer.cs.brown.edu">WebGazer</a> (open source, GPL-3.0),
+    an in-browser webcam eye-tracker whose architecture mirrors on-device
+    "estimate X from the camera, nothing leaves the device" products.
+  </p>
+  <p class="lede">
+    It runs with <strong>no webcam</strong>: WebGazer's real regression object is
+    seeded with a deterministic synthetic calibration set, so the run is identical
+    for everyone. The extraction and tamper code is exactly what would run against
+    a live session. Read <a href="../REPORT.md">REPORT.md</a> for the write-up.
+  </p>
+  <p id="status">Loading WebGazer from CDN…</p>
+  <div id="log"></div>
+  <footer>
+    WebGazer is © the Brown WebGazer Team, GPL-3.0-or-later, loaded from a CDN and
+    not redistributed here. This demo's own code is MIT-licensed. Security research
+    against an open-source library; no third-party service is touched.
+  </footer>
+
+  <!-- The genuine, unmodified library. -->
+  <script src="https://cdn.jsdelivr.net/npm/webgazer@3.5.3/dist/webgazer.min.js"
+          onload="document.getElementById('status').textContent='WebGazer loaded — running assessment below.'"
+          onerror="document.getElementById('status').textContent='Failed to load WebGazer from CDN (offline?).'"></script>
+  <script src="ridge.js"></script>
+  <script src="demo.js"></script>
+</body>
+</html>
