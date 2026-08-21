@@ -15,8 +15,13 @@ is used because it is legal to publish security work against.
 - **[RE-FINDINGS.md](RE-FINDINGS.md)** — a real RE pass on the shipped bytes:
   recovering the model from the minified bundle, then extracting and running the
   real shipped face-landmark neural network (738,949 params) outside WebGazer.
-- **[poc/](poc/)** — the runnable proofs of concept (tampering demo + the
-  standalone extracted-model runner under `poc/facemesh/`).
+- **[HARDER-TARGETS.md](HARDER-TARGETS.md)** — the two hardest, most on-brief
+  cases, demonstrated end to end: extracting a model compiled to **WebAssembly**
+  (and forging its output via linear memory), and recovering a model from an
+  **obfuscated** JS bundle (statically and by black-box query).
+- **[poc/](poc/)** — the runnable proofs of concept: the tampering demo, the
+  standalone extracted face-landmark model (`poc/facemesh/`), the WASM extraction
+  (`poc/wasm/`), and the obfuscation RE (`poc/obfuscated/`).
 
 ## Run it
 

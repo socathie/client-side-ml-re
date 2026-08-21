@@ -133,9 +133,15 @@ part and the honest change of method is:
   identifiers.
 
 The extraction and tamper *techniques* (Stages 2–3) are unchanged; only the
-*locating* work in Stage 1 gets harder. Being explicit: paid adversarial RE of a
-hardened bundle is the part I would be doing on the engagement itself, not
-something this sample claims to have already done.
+*locating* work in Stage 1 gets harder. These harder cases are demonstrated for
+real in [HARDER-TARGETS.md](HARDER-TARGETS.md): a model compiled to **WebAssembly**
+(weights carved from the binary and from live linear memory, then the reported age
+forged by writing linear memory) and a model hidden in an **obfuscated** JS bundle
+(recovered both by decoding the blob statically and by black-box querying the
+exported function). What remains genuinely engagement-specific — and is not
+claimable from a sample — is applying these to the client's actual staging build:
+their real WASM module, their real obfuscation and integrity checks. That is the
+paid work; Day 1 establishes which of these techniques their build resists.
 
 ## Recommendations
 
