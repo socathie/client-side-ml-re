@@ -12,7 +12,11 @@ is used because it is legal to publish security work against.
 
 - **[REPORT.md](REPORT.md)** — the write-up: what was done, how far it got, why it
   stopped, attacker effort per technique, and recommendations. Start here.
-- **[poc/](poc/)** — the runnable proof of concept.
+- **[RE-FINDINGS.md](RE-FINDINGS.md)** — a real RE pass on the shipped bytes:
+  recovering the model from the minified bundle, then extracting and running the
+  real shipped face-landmark neural network (738,949 params) outside WebGazer.
+- **[poc/](poc/)** — the runnable proofs of concept (tampering demo + the
+  standalone extracted-model runner under `poc/facemesh/`).
 
 ## Run it
 

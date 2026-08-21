@@ -82,10 +82,12 @@ reachable from JavaScript in the page.
 WebGazer's product model happens to be *runtime-calibrated*, so extraction means
 reading in-memory calibration data. A product whose model **is** shipped (a
 `model.json` + weight shards loaded by TF.js, as an age or liveness model
-typically would be) is if anything easier: intercept the load, or call the TF.js
-model object's own `save()` to a memory handler and reconstruct the files. The
-demo covers the harder, in-memory case; the shipped-weights case is a strictly
-smaller problem.
+typically would be) is the other case — and this demo performs it for real, not
+just describes it. [RE-FINDINGS.md](RE-FINDINGS.md) recovers the model's source
+URL straight out of the minified bundle, extracts the real shipped face-landmark
+network (a 738,949-parameter, float16-quantized MobileNet-style CNN) from the
+endpoint hardcoded there, and runs it standalone outside WebGazer. That is the
+shipped-weights extraction path an age model would present, executed end to end.
 
 ## Stage 3 — forge the result in a way that would actually work
 
